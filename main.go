@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 	"text/template"
 
 	"github.com/julienschmidt/httprouter"
@@ -83,5 +84,10 @@ func main() {
 	router.POST("/increase", IncreaseCounter)
 	router.POST("/decrease", DecreaseCounter)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, router))
 }
