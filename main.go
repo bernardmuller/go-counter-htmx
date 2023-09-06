@@ -78,6 +78,14 @@ func DecreaseCounter(w http.ResponseWriter, _ *http.Request, _ httprouter.Params
 	tmpl.ExecuteTemplate(w, "counter", data)
 }
 
+func getPort(port string) string {
+	envPort := os.Getenv("PORT")
+	if envPort != "" {
+		return ":" + envPort
+	}
+	return ":" + port
+}
+
 func main() {
 	router := httprouter.New()
 	router.GET("/api/", getCounterApi)
@@ -87,10 +95,7 @@ func main() {
 	router.POST("/increase", IncreaseCounter)
 	router.POST("/decrease", DecreaseCounter)
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	port := getPort("8080")
 
-	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, router))
+	log.Fatal(http.ListenAndServe("0.0.0.0"+port, router))
 }
