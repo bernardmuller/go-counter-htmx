@@ -48,7 +48,8 @@ func DecreaseCounterApi(w http.ResponseWriter, _ *http.Request, _ httprouter.Par
 }
 
 func getIndex(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
-	templ, _ := template.ParseFiles("./index.html")
+	templ, err := template.ParseFiles("index.html")
+	checkError(err)
 	data := map[string]int{
 		"Counter": counter.Value,
 	}
@@ -57,7 +58,8 @@ func getIndex(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 
 func IncreaseCounter(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 	tmplStr := "<div id=\"counter\">{{.Counter}}</div>"
-	tmpl, _ := template.New("counter").Parse(tmplStr)
+	tmpl, err := template.New("counter").Parse(tmplStr)
+	checkError(err)
 	counter.Increase()
 	data := map[string]int{
 		"Counter": counter.Value,
@@ -67,7 +69,8 @@ func IncreaseCounter(w http.ResponseWriter, _ *http.Request, _ httprouter.Params
 
 func DecreaseCounter(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 	tmplStr := "<div id=\"counter\">{{.Counter}}</div>"
-	tmpl, _ := template.New("counter").Parse(tmplStr)
+	tmpl, err := template.New("counter").Parse(tmplStr)
+	checkError(err)
 	counter.Decrease()
 	data := map[string]int{
 		"Counter": counter.Value,
