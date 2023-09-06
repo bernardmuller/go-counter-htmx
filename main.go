@@ -48,7 +48,7 @@ func DecreaseCounterApi(w http.ResponseWriter, _ *http.Request, _ httprouter.Par
 }
 
 func getIndex(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
-	templ, err := template.ParseFiles("index.html")
+	templ, err := template.ParseFiles("./index.html")
 	checkError(err)
 	data := map[string]int{
 		"Counter": counter.Value,
